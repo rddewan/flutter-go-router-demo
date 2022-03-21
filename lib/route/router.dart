@@ -1,5 +1,6 @@
 
 import 'package:flutter/widgets.dart';
+import 'package:flutter_goroute_demo/feature/splash/presentation/ui/splash_screen.dart';
 import 'package:flutter_goroute_demo/login_screen.dart';
 import 'package:flutter_goroute_demo/route/name_route.dart';
 import 'package:flutter_goroute_demo/signup_screen.dart';
@@ -16,7 +17,24 @@ abstract class AppRouter {
         GoRoute(
           name: defaultNameRoute,
           path: defaultRoute,
-          builder: (context,state) => const LoginScreen(),          
+          builder: (context,state) => const SplashScreen(),          
+          
+        ),
+        GoRoute(
+          name: loginNameRoute,
+          path: loginRoute,
+          pageBuilder: (context,state) => CustomTransitionPage<void>(
+            child: const LoginScreen(), 
+            transitionsBuilder: (_,animation,__,child) =>
+              SlideTransition(
+              position: animation.drive(
+                Tween<Offset>(
+                  begin: const Offset(0.25, 0.25),
+                  end: Offset.zero,
+                ).chain(CurveTween(curve: Curves.easeIn)),
+              ),
+            child: child),
+          ),
           routes: [
             GoRoute(
               name: signupNameRoute,
@@ -31,11 +49,11 @@ abstract class AppRouter {
                       end: Offset.zero,
                     ).chain(CurveTween(curve: Curves.easeIn)),
                   ),
-                  child: child),
-                ),
-            ),            
-          ],
-        ),        
+                child: child),
+              ),          
+            ), 
+          ]
+        ),         
       ],
       restorationScopeId: 'router',
       errorBuilder: (context,state) => ErrorScreen(exception: state.error),

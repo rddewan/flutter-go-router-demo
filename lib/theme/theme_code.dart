@@ -1,0 +1,4 @@
+enum ThemeCode {
+  dark,
+  light
+}

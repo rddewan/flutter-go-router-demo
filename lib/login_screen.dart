@@ -14,7 +14,7 @@ class LoginScreen extends StatefulWidget {
   _LoginScreen createState() => _LoginScreen();
 }
 
-class _LoginScreen extends State<LoginScreen> with RestorationMixin<LoginScreen>, WidgetsBindingObserver{  
+class _LoginScreen extends State<LoginScreen> with RestorationMixin<LoginScreen>{  
   final RestorableString _email = RestorableString('');
   final RestorableString _password = RestorableString('');
   late TextEditingController _emailController;
@@ -24,8 +24,8 @@ class _LoginScreen extends State<LoginScreen> with RestorationMixin<LoginScreen>
  
   @override
   void initState() {    
-    super.initState();  
-    WidgetsBinding.instance?.addObserver(this);  
+    super.initState();
+     
     _emailController = TextEditingController();
     _passwordController = TextEditingController();   
     _passwordFocusNode = FocusNode(); 
@@ -34,7 +34,7 @@ class _LoginScreen extends State<LoginScreen> with RestorationMixin<LoginScreen>
 
   @override
   void dispose() {    
-    WidgetsBinding.instance?.removeObserver(this);
+    
     _emailController.dispose();
     _passwordController.dispose();
     _passwordFocusNode.dispose();
@@ -120,28 +120,7 @@ class _LoginScreen extends State<LoginScreen> with RestorationMixin<LoginScreen>
     registerForRestoration(_password, 'login_password');    
     _emailController.value = TextEditingValue( text: _email.value); 
     _passwordController.value = TextEditingValue(text: _password.value); 
-  } 
-
-  @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {    
-    switch (state) {
-      case AppLifecycleState.inactive:
-        debugPrint(state.toString());         
-        break;
-      case AppLifecycleState.paused:          
-        debugPrint(state.toString());
-        break;
-      case AppLifecycleState.detached:        
-        debugPrint(state.toString());
-        break;
-      case AppLifecycleState.resumed:            
-        debugPrint(state.toString());
-        break;      
-      
-    }
-  }
-
-  
+  }     
   
 }
 
