@@ -20,11 +20,26 @@ class _SplashScreen extends BaseConsumerState<SplashScreen> {
     ref.listen<AppState>(appControllerProvider, (previous, next) {
       next.themeMode?.when(
         data: (data) {
-          context.goNamed(loginNameRoute);
-        },            
-        error: (e,s) => Center(child: Text(e.toString())), 
-        loading: () => null,
-      );     
+          print("data: $data");
+
+          showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  content: Center(
+                    child: Text('Show this dialog'),
+                  ),
+                );
+              });
+        },
+        error: (e, s) {
+          print('error: $e, stack: $s');
+          return Center(child: Text(e.toString()));
+        },
+        loading: () => Center(
+          child: LinearProgressIndicator(),
+        ),
+      ); 
     }); 
     return const Center(
       child: CircularProgressIndicator(color: Colors.white,),
